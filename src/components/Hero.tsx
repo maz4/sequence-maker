@@ -12,8 +12,8 @@ export default function Hero() {
         </div>
         <div className="w-full md:w-1/2">
           <p className="text-lg">
-            Explore the dynamic world of Capoeira with our random movement
-            selector.
+            Explore the dynamic world of Capoeira with capoeira random movement
+            generator.
           </p>
         </div>
       </div>
