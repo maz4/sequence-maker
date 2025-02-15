@@ -9,9 +9,10 @@ export const moveTypes = [
   "feint",
   "takedown",
   "counterattack",
+  "all",
 ] as const;
 
-export const jogoTypes = ["Benguela", "São Bento Grande"] as const;
+export const jogoTypes = ["Benguela", "São Bento Grande", "all"] as const;
 
 export interface MovementType {
   name: string;
