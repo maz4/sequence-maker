@@ -1,7 +1,22 @@
+export const moveTypes = [
+  "kick",
+  "dodge",
+  "fall",
+  "sweep",
+  "movement",
+  "defensive",
+  "acrobatic",
+  "feint",
+  "takedown",
+  "counterattack",
+] as const;
+
+export const jogoTypes = ["Benguela", "São Bento Grande"] as const;
+
 export interface MovementType {
   name: string;
-  jogoType: string[];
-  moveType: string;
+  jogoType: (typeof jogoTypes)[number][];
+  moveType: (typeof moveTypes)[number];
 }
 
 export const capoeiraMovements: Record<string, MovementType> = {
