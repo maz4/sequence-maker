@@ -1,6 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
+<p align="center">
+  <img src="src/app/logo.png" alt="Project Logo" style="max-width: 200px;">
+</p>
 
 First, run the development server:
 
