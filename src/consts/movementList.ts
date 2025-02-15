@@ -15,6 +15,8 @@ export const moveTypes = [
 
 export const jogoTypes = ["Benguela", "São Bento Grande"] as const;
 
+export type JogoType = (typeof jogoTypes)[number];
+
 export interface MovementType {
   name: string;
   jogoType: (typeof jogoTypes)[number][];
