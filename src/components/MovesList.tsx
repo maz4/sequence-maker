@@ -17,6 +17,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
+const MOVES_NUMBER = 3;
+
 export default function MovesList() {
   const [selectedMoveTypes, setSelectedMoveTypes] = useState<string[]>([]);
   const [selectedJogoTypes, setSelectedJogoTypes] = useState<JogoType[]>([]);
@@ -41,7 +43,11 @@ export default function MovesList() {
 
   const addRandomMoves = () => {
     const shuffled = [...filteredMoves].sort(() => 0.5 - Math.random());
-    setSelectedMoves((prevMoves) => [...prevMoves, ...shuffled.slice(0, 3)]);
+    setSelectedMoves((prevMoves) => [...shuffled.slice(0, MOVES_NUMBER)]);
+  };
+
+  const clearSelectedMoves = () => {
+    setSelectedMoves([]);
   };
 
   const resetFilters = () => {
@@ -58,7 +64,7 @@ export default function MovesList() {
         return prevMoves.filter(
           (previousMove) => previousMove.name !== move.name
         );
-      } else if (prevMoves.length === 3) {
+      } else if (prevMoves.length === MOVES_NUMBER) {
         return prevMoves;
       } else {
         return [...prevMoves, move];
@@ -71,11 +77,11 @@ export default function MovesList() {
       <h3 className="text-lg font-bold mb-2">Capoeira Moves</h3>
       <div className="mb-4 flex gap-2">
         <Button variant={"custom"} onClick={addRandomMoves} className="w-2/3">
-          Add 3 Random Moves
+          Add {MOVES_NUMBER} Random Moves
         </Button>
         <Button
           variant={"custom"}
-          onClick={() => setSelectedMoves([])}
+          onClick={clearSelectedMoves}
           className="w-1/3"
         >
           Clear
@@ -180,14 +186,13 @@ export default function MovesList() {
             {filteredMoves.map((move: MovementType) => (
               <li key={move.name}>
                 <Button
-                  variant="custom"
+                  variant={
+                    selectedMoves.some((m) => m.name === move.name)
+                      ? "secondary"
+                      : "custom"
+                  }
                   size="full"
                   onClick={() => toggleMoveSelection(move)}
-                  className={
-                    selectedMoves.some((m) => m.name === move.name)
-                      ? "bg-blue-200"
-                      : ""
-                  }
                 >
                   {move.name}
                 </Button>
