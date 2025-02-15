@@ -44,6 +44,11 @@ export default function MovesList() {
     setRandomMoves(shuffled.slice(0, 3));
   };
 
+  const resetFilters = () => {
+    setSelectedMoveTypes([]);
+    setSelectedJogoTypes([]);
+  };
+
   return (
     <div className="mt-4 mb-4 flex flex-col justify-center">
       <h3 className="text-lg font-bold mb-2">Capoeira Moves</h3>
@@ -88,68 +93,73 @@ export default function MovesList() {
       <div className="max-w-80 mx-auto">
         <h3 className="text-lg font-semibold mb-2">Filter Moves</h3>
         <div className="mb-4 flex flex-col gap-2">
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="custom">
-                Move Types ({selectedMoveTypes.length || "All"})
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-80">
-              <ToggleGroup
-                type="multiple"
-                value={selectedMoveTypes}
-                onValueChange={setSelectedMoveTypes}
-                className="flex flex-wrap gap-1"
-              >
-                {moveTypes.map((type) => (
-                  <ToggleGroupItem
-                    key={type}
-                    value={type}
-                    aria-label={type}
-                    className="capitalize py-2 px-4 border border-gray-300 rounded-md text-left hover:text-gray-500 transition-colors duration-200 shadow-md"
-                  >
-                    {type}
-                  </ToggleGroupItem>
-                ))}
-              </ToggleGroup>
-            </PopoverContent>
-          </Popover>
+          <div className="flex gap-2">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="custom" className="flex-1">
+                  Move Types ({selectedMoveTypes.length || "All"})
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80">
+                <ToggleGroup
+                  type="multiple"
+                  value={selectedMoveTypes}
+                  onValueChange={setSelectedMoveTypes}
+                  className="flex flex-wrap gap-1"
+                >
+                  {moveTypes.map((type) => (
+                    <ToggleGroupItem
+                      key={type}
+                      value={type}
+                      aria-label={type}
+                      className="capitalize py-2 px-4 border border-gray-300 rounded-md text-left hover:text-gray-500 transition-colors duration-200 shadow-md"
+                    >
+                      {type}
+                    </ToggleGroupItem>
+                  ))}
+                </ToggleGroup>
+              </PopoverContent>
+            </Popover>
 
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="custom">
-                Jogo Types ({selectedJogoTypes.length || "All"})
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-80">
-              <ToggleGroup
-                type="multiple"
-                value={selectedJogoTypes}
-                onValueChange={(value: JogoType[]) =>
-                  setSelectedJogoTypes(value)
-                }
-                className="flex flex-wrap gap-1"
-              >
-                {jogoTypes.map((type) => (
-                  <ToggleGroupItem
-                    key={type}
-                    value={type}
-                    aria-label={type}
-                    className="capitalize py-2 px-4 border border-gray-300 rounded-md text-left hover:text-gray-500 transition-colors duration-200 shadow-md"
-                  >
-                    {type}
-                  </ToggleGroupItem>
-                ))}
-              </ToggleGroup>
-            </PopoverContent>
-          </Popover>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="custom" className="flex-1">
+                  Jogo Types ({selectedJogoTypes.length || "All"})
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80">
+                <ToggleGroup
+                  type="multiple"
+                  value={selectedJogoTypes}
+                  onValueChange={(value: JogoType[]) =>
+                    setSelectedJogoTypes(value)
+                  }
+                  className="flex flex-wrap gap-1"
+                >
+                  {jogoTypes.map((type) => (
+                    <ToggleGroupItem
+                      key={type}
+                      value={type}
+                      aria-label={type}
+                      className="capitalize py-2 px-4 border border-gray-300 rounded-md text-left hover:text-gray-500 transition-colors duration-200 shadow-md"
+                    >
+                      {type}
+                    </ToggleGroupItem>
+                  ))}
+                </ToggleGroup>
+              </PopoverContent>
+            </Popover>
+          </div>
+          <Button variant="custom" onClick={resetFilters}>
+            Reset Filters
+          </Button>
         </div>
 
         <p>Move Types: {filteredMoves.length}</p>
         <div className="h-80 overflow-y-auto border border-gray-300 rounded-lg shadow-xl">
-          <ul className="space-y-3 p-4 min-w-80">
+          <ul className="flex flex-col gap-2 p-4 min-w-80">
             {filteredMoves.map((move: MovementType) => (
-              <li key={move.name} className="w-full">
+              <li key={move.name}>
                 <Button variant="custom" size="full">
                   {move.name}
                 </Button>
