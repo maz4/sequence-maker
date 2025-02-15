@@ -20,16 +20,16 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 export default function MovesList() {
   const [selectedMoveTypes, setSelectedMoveTypes] = useState<string[]>([]);
   const [selectedJogoTypes, setSelectedJogoTypes] = useState<JogoType[]>([]);
-  const [randomMoves, setRandomMoves] = useState<MovementType[]>([]);
-  const [randomMovesHeight, setRandomMovesHeight] = useState<number>(0);
+  const [selectedMoves, setSelectedMoves] = useState<MovementType[]>([]);
+  const [selectedMovesHeight, setSelectedMovesHeight] = useState<number>(0);
 
-  const randomMovesRef = useRef<HTMLDivElement>(null);
+  const selectedMovesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (randomMovesRef.current) {
-      setRandomMovesHeight(randomMovesRef.current.scrollHeight);
+    if (selectedMovesRef.current) {
+      setSelectedMovesHeight(selectedMovesRef.current.scrollHeight);
     }
-  }, [randomMoves]);
+  }, [selectedMoves]);
 
   const filteredMoves = Object.values(capoeiraMovements).filter(
     (move) =>
@@ -39,9 +39,9 @@ export default function MovesList() {
         selectedJogoTypes.some((jogo) => move.jogoType.includes(jogo)))
   );
 
-  const pickRandomMoves = () => {
+  const addRandomMoves = () => {
     const shuffled = [...filteredMoves].sort(() => 0.5 - Math.random());
-    setRandomMoves(shuffled.slice(0, 3));
+    setSelectedMoves((prevMoves) => [...prevMoves, ...shuffled.slice(0, 3)]);
   };
 
   const resetFilters = () => {
@@ -49,39 +49,57 @@ export default function MovesList() {
     setSelectedJogoTypes([]);
   };
 
+  const toggleMoveSelection = (move: MovementType) => {
+    setSelectedMoves((prevMoves) => {
+      const index = prevMoves.findIndex(
+        (previousMove) => previousMove.name === move.name
+      );
+      if (index > -1) {
+        return prevMoves.filter(
+          (previousMove) => previousMove.name !== move.name
+        );
+      } else if (prevMoves.length === 3) {
+        return prevMoves;
+      } else {
+        return [...prevMoves, move];
+      }
+    });
+  };
+
   return (
     <div className="mt-4 mb-4 flex flex-col justify-center">
       <h3 className="text-lg font-bold mb-2">Capoeira Moves</h3>
       <div className="mb-4 flex gap-2">
-        <Button variant={"custom"} onClick={pickRandomMoves} className="w-2/3">
-          Pick 3 Random Moves
+        <Button variant={"custom"} onClick={addRandomMoves} className="w-2/3">
+          Add 3 Random Moves
         </Button>
         <Button
           variant={"custom"}
-          onClick={() => setRandomMoves([])}
+          onClick={() => setSelectedMoves([])}
           className="w-1/3"
         >
           Clear
         </Button>
       </div>
       <div
-        ref={randomMovesRef}
+        ref={selectedMovesRef}
         style={{
-          height: randomMoves.length > 0 ? randomMovesHeight : 0,
-          opacity: randomMoves.length > 0 ? 1 : 0,
+          height: selectedMoves.length > 0 ? selectedMovesHeight : 0,
+          opacity: selectedMoves.length > 0 ? 1 : 0,
           overflow: "hidden",
           transition: "height 0.3s ease-out, opacity 0.3s ease-out",
         }}
       >
-        {randomMoves.length > 0 && (
+        {selectedMoves.length > 0 && (
           <div className="mb-4">
-            <h3 className="text-lg font-semibold mb-2">Random Moves:</h3>
-            <ul className="border border-gray-300 rounded-lg shadow-md p-4 flex flex-col md:flex-row gap-2 justify-between">
-              {randomMoves.map((move) => (
+            <h3 className="text-lg font-semibold mb-2">Selected Moves:</h3>
+            <ul className="border border-gray-300 rounded-lg shadow-md p-4 flex flex-wrap gap-2 justify-start">
+              {selectedMoves.map((move) => (
                 <Button
                   variant={"custom"}
                   key={move.name}
-                  className="w-full py-2 px-4 border border-gray-300 mt-0 rounded-md text-left hover:text-gray-500 transition-colors shadow-md content-center"
+                  onClick={() => toggleMoveSelection(move)}
+                  className="py-2 px-4 border border-gray-300 mt-0 rounded-md text-left hover:text-gray-500 transition-colors shadow-md content-center"
                 >
                   {move.name}
                 </Button>
@@ -90,6 +108,7 @@ export default function MovesList() {
           </div>
         )}
       </div>
+
       <div className="max-w-80 mx-auto">
         <h3 className="text-lg font-semibold mb-2">Filter Moves</h3>
         <div className="mb-4 flex flex-col gap-2">
@@ -160,7 +179,16 @@ export default function MovesList() {
           <ul className="flex flex-col gap-2 p-4 min-w-80">
             {filteredMoves.map((move: MovementType) => (
               <li key={move.name}>
-                <Button variant="custom" size="full">
+                <Button
+                  variant="custom"
+                  size="full"
+                  onClick={() => toggleMoveSelection(move)}
+                  className={
+                    selectedMoves.some((m) => m.name === move.name)
+                      ? "bg-blue-200"
+                      : ""
+                  }
+                >
                   {move.name}
                 </Button>
               </li>
