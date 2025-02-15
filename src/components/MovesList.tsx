@@ -5,27 +5,43 @@ import {
   capoeiraMovements,
   MovementType,
   moveTypes,
+  jogoTypes,
 } from "@/consts/movementList";
 
 export default function MovesList() {
   const [moveFilter, setMoveFilter] = useState<string>("all");
-
-  const moveTypesFilterOptions = ["all", ...moveTypes];
+  const [jogoFilter, setJogoFilter] =
+    useState<(typeof jogoTypes)[number]>("all");
 
   const filteredMoves = Object.values(capoeiraMovements).filter(
-    (move) => moveFilter === "all" || move.moveType === moveFilter
+    (move) =>
+      (moveFilter === "all" || move.moveType === moveFilter) &&
+      (jogoFilter === "all" || move.jogoType.includes(jogoFilter))
   );
 
   return (
     <div className="mt-4 mb-4">
       <h2 className="text-2xl font-bold mb-4 text-center">Capoeira Moves</h2>
-      <div className="mb-4">
+      <div className="mb-4 flex space-x-4">
         <select
           value={moveFilter}
           onChange={(e) => setMoveFilter(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-1/2 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          {moveTypesFilterOptions.map((type) => (
+          {moveTypes.map((type) => (
+            <option key={type} value={type}>
+              {type.charAt(0).toUpperCase() + type.slice(1)}
+            </option>
+          ))}
+        </select>
+        <select
+          value={jogoFilter}
+          onChange={(e) =>
+            setJogoFilter(e.target.value as (typeof jogoTypes)[number])
+          }
+          className="w-1/2 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          {jogoTypes.map((type) => (
             <option key={type} value={type}>
               {type.charAt(0).toUpperCase() + type.slice(1)}
             </option>
