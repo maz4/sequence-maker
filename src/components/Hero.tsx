@@ -4,9 +4,7 @@ export default function Hero() {
   return (
     <main className="container mx-auto px-4 py-4">
       <div className="flex flex-col md:flex-row md:items-center md:space-x-8 text-center md:text-justify">
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">
-          Sequence Capoeira Movements
-        </h1>
+        <h1 className="text-3xl md:text-4xl font-bold mb-4">Sequence Maker</h1>
         <div className="flex justify-center w-full md:w-1/2 mb-8 md:mb-0">
           <AuBatido />
         </div>
