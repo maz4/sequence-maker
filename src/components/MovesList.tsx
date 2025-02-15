@@ -6,20 +6,24 @@ import {
   MovementType,
   moveTypes,
   jogoTypes,
+  JogoType,
 } from "@/consts/movementList";
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+
 export default function MovesList() {
-  const [moveFilter, setMoveFilter] = useState<string>("all");
-  const [jogoFilter, setJogoFilter] = useState<
-    (typeof jogoTypes)[number] | "all"
-  >("all");
+  const [selectedMoveTypes, setSelectedMoveTypes] = useState<string[]>([]);
+  const [selectedJogoTypes, setSelectedJogoTypes] = useState<JogoType[]>([]);
   const [randomMoves, setRandomMoves] = useState<MovementType[]>([]);
   const [randomMovesHeight, setRandomMovesHeight] = useState<number>(0);
 
   const randomMovesRef = useRef<HTMLDivElement>(null);
-
-  const moveTypesFilerValues = ["all", ...moveTypes];
-  const jogoTypesFilterValues = ["all", ...jogoTypes];
 
   useEffect(() => {
     if (randomMovesRef.current) {
@@ -29,8 +33,10 @@ export default function MovesList() {
 
   const filteredMoves = Object.values(capoeiraMovements).filter(
     (move) =>
-      (moveFilter === "all" || move.moveType === moveFilter) &&
-      (jogoFilter === "all" || move.jogoType.includes(jogoFilter))
+      (selectedMoveTypes.length === 0 ||
+        selectedMoveTypes.includes(move.moveType)) &&
+      (selectedJogoTypes.length === 0 ||
+        selectedJogoTypes.some((jogo) => move.jogoType.includes(jogo)))
   );
 
   const pickRandomMoves = () => {
@@ -40,20 +46,18 @@ export default function MovesList() {
 
   return (
     <div className="mt-4 mb-4 flex flex-col justify-center">
-      <h2 className="text-2xl font-bold mb-4 text-center">Capoeira Moves</h2>
+      <h3 className="text-lg font-bold mb-2">Capoeira Moves</h3>
       <div className="mb-4 flex gap-2">
-        <button
-          onClick={pickRandomMoves}
-          className="w-2/3 py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200"
-        >
+        <Button variant={"custom"} onClick={pickRandomMoves} className="w-2/3">
           Pick 3 Random Moves
-        </button>
-        <button
+        </Button>
+        <Button
+          variant={"custom"}
           onClick={() => setRandomMoves([])}
-          className="w-1/3 py-2 px-4 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors duration-200"
+          className="w-1/3"
         >
           Clear
-        </button>
+        </Button>
       </div>
       <div
         ref={randomMovesRef}
@@ -69,64 +73,76 @@ export default function MovesList() {
             <h3 className="text-lg font-semibold mb-2">Random Moves:</h3>
             <ul className="border border-gray-300 rounded-lg shadow-md p-4 flex flex-col md:flex-row gap-2 justify-between">
               {randomMoves.map((move) => (
-                <li
+                <Button
+                  variant={"custom"}
                   key={move.name}
                   className="w-full py-2 px-4 border border-gray-300 mt-0 rounded-md text-left hover:text-gray-500 transition-colors shadow-md content-center"
                 >
                   {move.name}
-                </li>
+                </Button>
               ))}
             </ul>
           </div>
         )}
       </div>
-
       <div className="max-w-80 mx-auto">
-        <div className="mb-4 flex flex-col">
-          <div className="flex flex-wrap justify-center gap-2">
-            <div className="w-full">
-              <label
-                htmlFor="moveFilter"
-                className="block text-sm font-medium text-gray-700 mb-1"
+        <h3 className="text-lg font-semibold mb-2">Filter Moves</h3>
+        <div className="mb-4 flex flex-col gap-2">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="custom">
+                Move Types ({selectedMoveTypes.length || "All"})
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <ToggleGroup
+                type="multiple"
+                value={selectedMoveTypes}
+                onValueChange={setSelectedMoveTypes}
+                className="flex flex-wrap gap-1"
               >
-                Move Type
-              </label>
-              <select
-                id="moveFilter"
-                value={moveFilter}
-                onChange={(e) => setMoveFilter(e.target.value)}
-                className="capitalize w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {moveTypesFilerValues.map((type) => (
-                  <option key={type} value={type}>
+                {moveTypes.map((type) => (
+                  <ToggleGroupItem
+                    key={type}
+                    value={type}
+                    aria-label={type}
+                    className="capitalize py-2 px-4 border border-gray-300 rounded-md text-left hover:text-gray-500 transition-colors duration-200 shadow-md"
+                  >
                     {type}
-                  </option>
+                  </ToggleGroupItem>
                 ))}
-              </select>
-            </div>
-            <div className="w-full">
-              <label
-                htmlFor="jogoFilter"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Jogo Type
-              </label>
-              <select
-                id="jogoFilter"
-                value={jogoFilter}
-                onChange={(e) =>
-                  setJogoFilter(e.target.value as (typeof jogoTypes)[number])
+              </ToggleGroup>
+            </PopoverContent>
+          </Popover>
+
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="custom">
+                Jogo Types ({selectedJogoTypes.length || "All"})
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <ToggleGroup
+                type="multiple"
+                value={selectedJogoTypes}
+                onValueChange={(value: JogoType[]) =>
+                  setSelectedJogoTypes(value)
                 }
-                className="capitalize w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex flex-wrap gap-1"
               >
-                {jogoTypesFilterValues.map((type) => (
-                  <option key={type} value={type}>
+                {jogoTypes.map((type) => (
+                  <ToggleGroupItem
+                    key={type}
+                    value={type}
+                    aria-label={type}
+                    className="capitalize py-2 px-4 border border-gray-300 rounded-md text-left hover:text-gray-500 transition-colors duration-200 shadow-md"
+                  >
                     {type}
-                  </option>
+                  </ToggleGroupItem>
                 ))}
-              </select>
-            </div>
-          </div>
+              </ToggleGroup>
+            </PopoverContent>
+          </Popover>
         </div>
 
         <p>Move Types: {filteredMoves.length}</p>
@@ -134,9 +150,9 @@ export default function MovesList() {
           <ul className="space-y-3 p-4 min-w-80">
             {filteredMoves.map((move: MovementType) => (
               <li key={move.name} className="w-full">
-                <button className="w-full py-2 px-4 border border-gray-300 rounded-md text-left hover:text-gray-500 transition-colors duration-200 shadow-md">
+                <Button variant="custom" size="full">
                   {move.name}
-                </button>
+                </Button>
               </li>
             ))}
           </ul>
