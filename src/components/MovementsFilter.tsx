@@ -33,7 +33,7 @@ export default function MovementsFilter({
         <div className="flex gap-2">
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="custom" className="flex-1">
+              <Button className="flex-1">
                 Move Types ({selectedMoveTypes.length || "All"})
               </Button>
             </PopoverTrigger>
@@ -60,7 +60,7 @@ export default function MovementsFilter({
 
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="custom" className="flex-1">
+              <Button className="flex-1">
                 Jogo Types ({selectedJogoTypes.length || "All"})
               </Button>
             </PopoverTrigger>
@@ -87,9 +87,7 @@ export default function MovementsFilter({
             </PopoverContent>
           </Popover>
         </div>
-        <Button variant="custom" onClick={resetFilters}>
-          Reset Filters
-        </Button>
+        <Button onClick={resetFilters}>Reset Filters</Button>
       </div>
     </section>
   );

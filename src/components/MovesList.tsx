@@ -26,7 +26,7 @@ export default function MovesList({
                 variant={
                   selectedMoves.some((m) => m.name === move.name)
                     ? "secondary"
-                    : "custom"
+                    : "default"
                 }
                 size="full"
                 onClick={() => toggleMoveSelection(move)}

@@ -56,19 +56,11 @@ export default function GeneratedMovementList({
                 </option>
               ))}
           </select>
-          <Button
-            variant={"custom"}
-            onClick={addRandomMoves}
-            className="flex-grow"
-          >
+          <Button onClick={addRandomMoves} className="flex-grow">
             Generate Moves
           </Button>
         </div>
-        <Button
-          variant={"custom"}
-          onClick={clearSelectedMoves}
-          className="w-1/3"
-        >
+        <Button onClick={clearSelectedMoves} className="w-1/3">
           Clear
         </Button>
       </div>
@@ -87,10 +79,7 @@ export default function GeneratedMovementList({
             <ul className="border border-gray-300 rounded-lg shadow-md p-4 flex flex-wrap gap-2 justify-start">
               {selectedMoves.map((move) => (
                 <li key={move.name}>
-                  <Button
-                    variant={"custom"}
-                    onClick={() => toggleMoveSelection(move)}
-                  >
+                  <Button onClick={() => toggleMoveSelection(move)}>
                     {move.name}
                   </Button>
                 </li>
