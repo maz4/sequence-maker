@@ -43,7 +43,7 @@ export default function MovesList() {
 
   const addRandomMoves = () => {
     const shuffled = [...filteredMoves].sort(() => 0.5 - Math.random());
-    setSelectedMoves((prevMoves) => [...shuffled.slice(0, MOVES_NUMBER)]);
+    setSelectedMoves(() => [...shuffled.slice(0, MOVES_NUMBER)]);
   };
 
   const clearSelectedMoves = () => {
