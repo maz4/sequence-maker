@@ -11,8 +11,6 @@ export const moveTypes = [
   "contra-ataque",
 ] as const;
 
-// "todos",
-
 export const jogoTypes = ["Benguela", "São Bento Grande"] as const;
 
 export type JogoType = (typeof jogoTypes)[number];
