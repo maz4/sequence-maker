@@ -2,6 +2,14 @@
   <img src="src/app/logo.png" alt="Project Logo" style="max-width: 200px;">
 </p>
 
+[Preview live page](https://maz4.github.io/sequence-maker)
+
+Simple app to help generate capoeira sequence movements.
+
+\*Note: mostly written with gen ai
+
+## Dev
+
 First, run the development server:
 
 ```bash
