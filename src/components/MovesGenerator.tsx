@@ -8,7 +8,7 @@ import {
 } from "@/consts/movementList";
 
 import MovementsFilter from "./MovementsFilter";
-import GeneratedMovementList from "./GeneraedMovementList";
+import GeneratedMovementList from "./GeneratedMovementList/GeneratedMovementList";
 import MovesList from "./MovesList";
 
 export default function MovnsGenerator() {
