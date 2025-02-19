@@ -1,8 +1,10 @@
 import React from "react";
 
 import { Button } from "@/components/ui/button";
-import SectionTitle from "./SectionTitle";
+import SectionTitle from "../SectionTitle";
 import { MovementType } from "@/consts/movementList";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { content } from "./movesListContent";
 
 export interface MovesListProps {
   filteredMoves: MovementType[];
@@ -15,9 +17,12 @@ export default function MovesList({
   selectedMoves,
   toggleMoveSelection,
 }: MovesListProps) {
+  const { language } = useLanguage();
   return (
     <section>
-      <SectionTitle>Moves List: {filteredMoves.length}</SectionTitle>
+      <SectionTitle>
+        {content[language.code].sectionTitle} {filteredMoves.length}
+      </SectionTitle>
       <div className="h-80 overflow-y-auto border border-gray-300 rounded-lg shadow-xl">
         <ul className="flex flex-col gap-2 p-4 min-w-80">
           {filteredMoves.map((move: MovementType) => (

@@ -9,7 +9,9 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import SectionTitle from "./SectionTitle";
+import SectionTitle from "../SectionTitle";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { content } from "@/components/MovementsFilter/movementsFilterContent";
 
 export interface MovementsFilterProps {
   selectedMoveTypes: string[];
@@ -26,15 +28,17 @@ export default function MovementsFilter({
   setSelectedJogoTypes,
   resetFilters,
 }: MovementsFilterProps) {
+  const { language } = useLanguage();
   return (
     <section>
-      <SectionTitle>Filter Moves</SectionTitle>
+      <SectionTitle> {content[language.code].sectionTitle} </SectionTitle>
       <div className="mb-4 flex flex-col gap-2">
         <div className="flex gap-2">
           <Popover>
             <PopoverTrigger asChild>
               <Button className="flex-1">
-                Move Types ({selectedMoveTypes.length || "All"})
+                {content[language.code].moveTypesButton} (
+                {selectedMoveTypes.length || content[language.code].allText})
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-80">
@@ -61,7 +65,8 @@ export default function MovementsFilter({
           <Popover>
             <PopoverTrigger asChild>
               <Button className="flex-1">
-                Jogo Types ({selectedJogoTypes.length || "All"})
+                {content[language.code].jogoTypesButton} (
+                {selectedJogoTypes.length || content[language.code].allText})
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-80">
@@ -87,7 +92,9 @@ export default function MovementsFilter({
             </PopoverContent>
           </Popover>
         </div>
-        <Button onClick={resetFilters}>Reset Filters</Button>
+        <Button onClick={resetFilters}>
+          {content[language.code].resetButton}{" "}
+        </Button>
       </div>
     </section>
   );

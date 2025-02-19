@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import { Button } from "@/components/ui/button";
-import SectionTitle from "./SectionTitle";
+import SectionTitle from "../SectionTitle";
 import { MAX_MOVES } from "@/consts/maxNumberOfMoves";
 import { MovementType } from "@/consts/movementList";
+import { content } from "./generatedMovementListContent";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export interface GeneratedMovementListProps {
   clearSelectedMoves: () => void;
@@ -24,7 +26,7 @@ export default function GeneratedMovementList({
   toggleMoveSelection,
 }: GeneratedMovementListProps) {
   const [selectedMovesHeight, setSelectedMovesHeight] = useState<number>(0);
-  // const [numberOfMoves, setNumberOfMoves] = useState<number>(3);
+  const { language } = useLanguage();
 
   const addRandomMoves = () => {
     const shuffled = [...filteredMoves].sort(() => 0.5 - Math.random());
@@ -40,7 +42,7 @@ export default function GeneratedMovementList({
 
   return (
     <section>
-      <SectionTitle>Capoeira Moves</SectionTitle>
+      <SectionTitle>{content[language.code].sectionTitle}</SectionTitle>
       <div className="mb-4 flex gap-2">
         <div className="flex items-center gap-2 w-2/3">
           <select
@@ -57,11 +59,11 @@ export default function GeneratedMovementList({
               ))}
           </select>
           <Button onClick={addRandomMoves} className="flex-grow">
-            Generate Moves
+            {content[language.code].generateMovesButton}
           </Button>
         </div>
         <Button onClick={clearSelectedMoves} className="w-1/3">
-          Clear
+          {content[language.code].clearButton}
         </Button>
       </div>
       <div
@@ -75,7 +77,9 @@ export default function GeneratedMovementList({
       >
         {selectedMoves.length > 0 && (
           <div className="mb-4">
-            <h3 className="text-lg font-semibold mb-2">Selected Moves:</h3>
+            <h3 className="text-lg font-semibold mb-2">
+              {content[language.code].subSectionH3}
+            </h3>
             <ul className="border border-gray-300 rounded-lg shadow-md p-4 flex flex-wrap gap-2 justify-start">
               {selectedMoves.map((move) => (
                 <li key={move.name}>
