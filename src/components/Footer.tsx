@@ -25,7 +25,7 @@ export default function Footer() {
     <footer className="w-full py-4 px-6 flex justify-between items-center border-t">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline">
+          <Button>
             {language.name} <ChevronDown className="ml-2 h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>

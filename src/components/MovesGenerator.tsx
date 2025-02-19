@@ -7,9 +7,9 @@ import {
   JogoType,
 } from "@/consts/movementList";
 
-import MovementsFilter from "./MovementsFilter";
+import MovementsFilter from "./MovementsFilter/MovementsFilter";
 import GeneratedMovementList from "./GeneratedMovementList/GeneratedMovementList";
-import MovesList from "./MovesList";
+import MovesList from "./MovesList/MovesList";
 
 export default function MovnsGenerator() {
   const [selectedMoveTypes, setSelectedMoveTypes] = useState<string[]>([]);
