@@ -7,6 +7,7 @@ import React, {
   useEffect,
 } from "react";
 import { Language, languages } from "@/consts/languages";
+import { getItemFromStorage, saveToStorage } from "@/utils/localStorage";
 
 interface LanguageContextType {
   language: Language;
@@ -20,20 +21,30 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>(languages.en);
 
+  const updateLanguage = (newLanguage: Language) => {
+    setLanguage(newLanguage);
+    saveToStorage("language", newLanguage);
+  };
+
   useEffect(() => {
-    const storedLanguage = localStorage.getItem("language");
+    const storedLanguage = getItemFromStorage("language") as Language;
+
+    /**
+     * In case data in the local storage has corraped language set the laguage again to default
+     */
+    if (!languages[storedLanguage.code]) {
+      updateLanguage(languages.en);
+      return;
+    }
+
+    /**
+     * Set the language to the one that was found in the local storage
+     */
     if (storedLanguage) {
-      const parsedLanguage = JSON.parse(storedLanguage);
-      setLanguage(parsedLanguage);
+      setLanguage(storedLanguage);
     }
   }, []);
 
-  const updateLanguage = (newLanguage: Language) => {
-    setLanguage(newLanguage);
-    localStorage.setItem("language", JSON.stringify(newLanguage));
-  };
-
-  console.log(language);
   return (
     <LanguageContext.Provider value={{ language, updateLanguage }}>
       {children}
