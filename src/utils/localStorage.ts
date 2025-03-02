@@ -1,3 +1,4 @@
+import { ValueOf } from "@/lib/valueOf";
 import { StorageData } from "./localStorageTypes";
 
 const APP_STORAGE_KEY = "capoeira-sequence-maker";
@@ -47,10 +48,12 @@ export const getFromStorage = (): StorageData | null => {
  * @param key - The key for which to retrieve data
  * @returns The stored data for the key or null if not found
  */
-export const getItemFromStorage = (key: string): unknown | null => {
+export const getItemFromStorage = (
+  key: string
+): ValueOf<StorageData> | null => {
   try {
     const data = getFromStorage();
-    return data ? data[key] : null;
+    return data && data[key] ? data[key] : null;
   } catch (error) {
     console.error("Error reading item from localStorage:", error);
     return null;

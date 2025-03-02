@@ -1,6 +1,6 @@
 import { Language } from "@/consts/languages";
 
 export interface StorageData {
-  userLanguage: Language;
+  language: Language;
   [key: string]: unknown;
 }
