@@ -32,7 +32,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     /**
      * In case data in the local storage has corraped language set the laguage again to default
      */
-    if (!languages[storedLanguage.code]) {
+    if (!languages[storedLanguage?.code]) {
       updateLanguage(languages.en);
       return;
     }
