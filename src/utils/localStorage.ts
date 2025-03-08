@@ -1,7 +1,7 @@
 import { ValueOf } from "@/lib/valueOf";
 import { StorageData } from "./localStorageTypes";
 
-const APP_STORAGE_KEY = "capoeira-sequence-maker";
+export const APP_STORAGE_KEY = "capoeira-sequence-maker";
 
 /**
  * Saves data to localStorage under a specific key within the app's namespace
