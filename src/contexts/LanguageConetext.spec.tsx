@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { expect } from "@jest/globals";
+import { afterAll, expect } from "@jest/globals";
 import { render, act, renderHook, screen } from "@testing-library/react";
 
 import { LanguageProvider, useLanguage } from "./LanguageContext";
@@ -54,6 +54,14 @@ describe("LanguageProvider and useLanguage", () => {
   // Clear localStorage between tests
   beforeEach(() => {
     localStorage.clear();
+  });
+
+  beforeAll(() => {
+    jest.spyOn(console, "error").mockImplementation(() => "");
+  });
+
+  afterAll(() => {
+    jest.resetAllMocks();
   });
 
   describe("LanguageProvider", () => {
