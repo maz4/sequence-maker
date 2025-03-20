@@ -1,4 +1,3 @@
-import { ValueOf } from "@/lib/valueOf";
 import { StorageData } from "./localStorageTypes";
 
 export const APP_STORAGE_KEY = "capoeira-sequence-maker";
@@ -48,9 +47,9 @@ export const getFromStorage = (): StorageData | null => {
  * @param key - The key for which to retrieve data
  * @returns The stored data for the key or null if not found
  */
-export const getItemFromStorage = (
-  key: string
-): ValueOf<StorageData> | null => {
+export const getItemFromStorage = <K extends keyof StorageData>(
+  key: K
+): StorageData[K] | null => {
   try {
     const data = getFromStorage();
     return data && data[key] ? data[key] : null;
@@ -65,18 +64,20 @@ export const getItemFromStorage = (
  * @param key - The key to remove
  * @returns boolean indicating success or failure
  */
-export const removeFromStorage = (key: string): boolean => {
+export const removeFromStorage = <K extends keyof StorageData>(
+  key: K
+): StorageData[K] | null => {
   try {
     const data = getFromStorage();
     if (data && key in data) {
       delete data[key];
       localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(data));
-      return true;
+      return data[key];
     }
-    return false;
+    return null;
   } catch (error) {
     console.error("Error removing item from localStorage:", error);
-    return false;
+    return null;
   }
 };
 
