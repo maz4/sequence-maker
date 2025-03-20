@@ -1,4 +1,6 @@
-const nextJest = require("next/jest");
+import { pathsToModuleNameMapper } from "ts-jest";
+import { compilerOptions } from "./tsconfig.json";
+import nextJest from "next/jest";
 
 const createJestConfig = nextJest({
   dir: "./",
@@ -7,16 +9,19 @@ const createJestConfig = nextJest({
 const customJestConfig = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   testEnvironment: "jest-environment-jsdom",
-  moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/src/$1",
-  },
-  // Modern approach uses ts-jest or SWC instead of Babel
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
+    prefix: "<rootDir>/",
+  }),
   preset: "ts-jest",
-  // Alternatively, use SWC (which is already included in Next.js)
-  // transform: {
-  //   '^.+\\.(ts|tsx)$': ['@swc/jest'],
-  // },
-  testMatch: ["**/*.spec.ts", "**/*.spec.tsx", "**/*.test.ts", "**/*.test.tsx"],
+  transform: {
+    "^.+\\.(ts|tsx)$": "ts-jest",
+  },
+  extensionsToTreatAsEsm: [".ts", ".tsx"],
+  globals: {
+    "ts-jest": {
+      useESM: true,
+    },
+  },
 };
 
-module.exports = createJestConfig(customJestConfig);
+export default createJestConfig(customJestConfig);
