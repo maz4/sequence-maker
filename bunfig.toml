@@ -1,4 +1,4 @@
 [test]
 extensions = [".test.ts", ".test.tsx", ".spec.ts", ".spec.tsx"]
 environment = "jsdom"
-preload = "./jest.setup.js"
+preload = "./jest.setup.ts"
