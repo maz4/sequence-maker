@@ -57,7 +57,7 @@ export const FeatureFlagsProvider = ({
   };
 
   useEffect(() => {
-    const storedFlags = getItemFromStorage(FEATURE_FLAGS) as FeatureFlags;
+    const storedFlags = getItemFromStorage(FEATURE_FLAGS);
 
     if (!storedFlags) {
       setFeatureFlags(flags);
