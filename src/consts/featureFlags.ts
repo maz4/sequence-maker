@@ -1,11 +1,11 @@
 export const flags = {
   header: {
     isEnabled: true,
-    description: "",
+    description: "Enable new header design",
   },
   footer: {
     isEnabled: false,
-    description: "",
+    description: "enable new fotter design",
   },
 } as const;
 

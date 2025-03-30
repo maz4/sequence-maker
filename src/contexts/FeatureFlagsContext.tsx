@@ -65,9 +65,7 @@ export const FeatureFlagsProvider = ({
       return;
     }
 
-    if (storedFlags) {
-      setFeatureFlags(storedFlags);
-    }
+    setFeatureFlags(storedFlags);
   }, []);
 
   return (
