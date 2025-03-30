@@ -22,7 +22,7 @@ import {
 /** local storage key */
 const FEATURE_FLAGS = "featureFlags";
 
-type UpdateFeatureFalgArgs = {
+export type UpdateFeatureFalgArgs = {
   flag: FeatureFlagKeys;
   values: FeatureFlagValues;
 };
