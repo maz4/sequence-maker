@@ -9,7 +9,7 @@ export const flags = {
   },
 } as const;
 
-export type FeatureFlagValues = (typeof flags)[keyof typeof flags];
+export type FeatureFlagValues = { isEnabled: boolean; description: string };
 
 export type FeatureFlagKeys = keyof typeof flags;
 
